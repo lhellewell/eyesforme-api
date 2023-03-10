@@ -2,13 +2,13 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
 using System.Net.NetworkInformation;
-using System.Security.Claims;
 using System.Text;
 using System.Linq;
 using EyesApiJwt.Data;
-
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EyesApiJwt.Controllers
 {
@@ -93,6 +93,25 @@ namespace EyesApiJwt.Controllers
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
 
             return jwt;
+        }
+
+        [HttpPost("logout")]
+        public ActionResult<string> Logout(string token)
+        {
+            
+
+            var jwtHandler = new JwtSecurityTokenHandler();
+
+            var jwtToken = jwtHandler.ReadJwtToken(token);
+
+            
+            var nameClaim = jwtToken.Payload.FirstOrDefault(c => c.Key == "name");
+
+            user = new User();
+
+            Console.WriteLine(nameClaim);
+
+            return Ok("logged out" + nameClaim.Value);
         }
     }
 

@@ -1,4 +1,5 @@
 using EyesApiJwt.Data;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>();
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("NamePolicy", policy =>
+    {
+        policy.RequireClaim("name");
+    });
+});
 
 var app = builder.Build();
 
