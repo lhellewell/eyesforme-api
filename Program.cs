@@ -19,6 +19,17 @@ builder.Services.AddAuthorization(options =>
     });
 });
 
+builder.Services.AddCors(options =>
+{
+    // this defines a CORS policy called "default"
+    options.AddPolicy("default", policy =>
+    {
+        policy.WithOrigins("http://localhost:7048")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -28,10 +39,16 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("default");
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
 
+Console.WriteLine("HELLO");
+
 app.Run();
+
+
