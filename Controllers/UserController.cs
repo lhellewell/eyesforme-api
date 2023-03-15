@@ -17,8 +17,8 @@ namespace EyesApiJwt.Controllers
             _context = context;
         }
 
-        [HttpGet("{userId}")]
-        public async Task<ActionResult<User>> GetUser(string userId)
+        [HttpGet("login")]
+        public async Task<ActionResult<User>> GetUser()
         {
             Console.WriteLine("HELLOYO \n \n TEST ETEST");
 
@@ -65,6 +65,7 @@ namespace EyesApiJwt.Controllers
 
                     // Hasn't logged into database before
                     await _context.Users.AddAsync(user);
+                    _context.SaveChanges();
                 }
 
                 return Ok(user);
