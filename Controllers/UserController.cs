@@ -25,7 +25,7 @@ namespace EyesApiJwt.Controllers
             // Get the access token from the Authorization header
             string accessToken = Request.Headers["Authorization"].ToString().Split(' ')[1];
 
-            var request = Request;
+
 
             try
             {
