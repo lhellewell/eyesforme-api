@@ -26,7 +26,6 @@ namespace EyesApiJwt.Controllers
             string accessToken = Request.Headers["Authorization"].ToString().Split(' ')[1];
 
 
-
             try
             {
                 // Verify the access token with Google's authentication server
@@ -41,14 +40,33 @@ namespace EyesApiJwt.Controllers
                 // The access token is valid, and the user is authenticated
                 string authenticatedUserId = payload.Subject;
 
-                if (authenticatedUserId != "111750033314175717878")
+                // The user has not been authenticated
+                if (authenticatedUserId == null)
                 {
-                    // The authenticated user does not have permission to access this user's data
                     return Forbid();
                 }
 
-                // Retrieve the user's data from the database and return it
-                User? user = await _context.Users.FindAsync("strin1g");
+
+
+                // Retrieve the user's data from the database
+                User? user = await _context.Users.FindAsync(authenticatedUserId);
+
+                // Check if user has logged in before
+                if (user == null)
+                {
+                    // Creating new user entity
+                    user = new User();
+                    user.UserId = authenticatedUserId;
+                    user.Email = payload.Email;
+                    user.IssuesAtSeconds = payload.IssuedAtTimeSeconds;
+                    user.Image = payload.Picture;
+                    user.Name = payload.Name;
+
+
+                    // Hasn't logged into database before
+                    await _context.Users.AddAsync(user);
+                }
+
                 return Ok(user);
             }
             catch (InvalidJwtException)
