@@ -47,7 +47,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-Console.WriteLine("HELLO");
+Console.WriteLine("test");
 
 app.Run();
 
