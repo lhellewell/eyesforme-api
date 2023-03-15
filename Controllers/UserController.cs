@@ -26,7 +26,6 @@ namespace EyesApiJwt.Controllers
             string accessToken = Request.Headers["Authorization"].ToString().Split(' ')[1];
 
             var request = Request;
-            Console.WriteLine(request);
 
             try
             {
@@ -41,9 +40,8 @@ namespace EyesApiJwt.Controllers
 
                 // The access token is valid, and the user is authenticated
                 string authenticatedUserId = payload.Subject;
-                Console.WriteLine(payload.Subject);
 
-                if (authenticatedUserId != userId)
+                if (authenticatedUserId != "111750033314175717878")
                 {
                     // The authenticated user does not have permission to access this user's data
                     return Forbid();

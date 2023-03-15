@@ -33,7 +33,7 @@ namespace EyesApiJwt.Controllers
             
             
             // Checking if user already exists
-            if (_context.Users.Any(o => o.Username == request.Username))
+            if (_context.Users.Any(o => o.UserID == request.Username))
             {
                 return BadRequest("User already exists");
             }
@@ -41,7 +41,7 @@ namespace EyesApiJwt.Controllers
             // Creating user object
             
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
-            user.Username = request.Username;
+            user.UserID = request.Username;
             user.PasswordHash = passwordHash;
 
             // Adding to database
@@ -77,7 +77,7 @@ namespace EyesApiJwt.Controllers
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.Username)
+                new Claim(ClaimTypes.Name, user.UserID)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Jwt:Token").Value!));

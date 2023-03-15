@@ -32,7 +32,7 @@ namespace EyesApiJwt.Controllers
             var nameClaim = jwtToken.Payload.FirstOrDefault(c => c.Key == "name").Value.ToString();
 
             // Checks if user exists
-            if (_context.Users.Any(o => o.Username == nameClaim))
+            if (_context.Users.Any(o => o.UserID == nameClaim))
             {
                 _context.Submissions.Add(submission);
             }
@@ -50,7 +50,7 @@ namespace EyesApiJwt.Controllers
 
             var nameClaim = jwtToken.Payload.FirstOrDefault(c => c.Key == "name").Value.ToString();
 
-            if (_context.Users.Any(o => o.Username == nameClaim))
+            if (_context.Users.Any(o => o.UserID == nameClaim))
             {
                 
 
